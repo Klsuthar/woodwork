@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   const navItems = [
     { name: 'Home', href: '/' },
@@ -13,6 +14,10 @@ const Navbar: React.FC = () => {
     { name: 'About Us', href: '/about' },
     { name: 'Contact Us', href: '/contact' },
   ];
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
 
   return (
     <nav className="fixed w-full bg-oldLace/90 backdrop-blur-sm z-50 shadow-sm">
@@ -24,14 +29,15 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Desktop Menu */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-darkWood hover:text-peru transition-colors duration-300 font-inter"
+                  className={`text-darkWood hover:text-peru transition-colors duration-300 font-inter ${
+                    location.pathname === item.href ? 'font-semibold text-peru' : ''
+                  }`}
                 >
                   {item.name}
                 </Link>
@@ -39,11 +45,11 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-darkWood p-2"
+              aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -51,7 +57,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -64,7 +69,9 @@ const Navbar: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="block px-3 py-2 text-darkWood hover:text-peru transition-colors duration-300 font-inter"
+                className={`block px-3 py-2 text-darkWood hover:text-peru transition-colors duration-300 font-inter ${
+                  location.pathname === item.href ? 'font-semibold text-peru' : ''
+                }`}
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}

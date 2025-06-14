@@ -9,10 +9,12 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Next from './pages/Next';
 
-const HomePage: React.FC = () => {
+interface HomePageProps {}
+
+const HomePage: React.FC<HomePageProps> = () => {
   return (
     <>
-      <main>
+      <main className="pt-16">
         <Hero />
         <Services />
         <Gallery />
@@ -32,6 +34,10 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/next" element={<Next />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>
     </Router>
